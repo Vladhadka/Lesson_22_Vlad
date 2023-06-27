@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Login",
+		
 			"event": [
 				{
 					"listen": "test",
@@ -22,7 +22,7 @@
 				}
 			],
 			"request": {
-				"method": "POST",
+				dsaasdas
 				"header": [],
 				"body": {
 					"mode": "raw",
