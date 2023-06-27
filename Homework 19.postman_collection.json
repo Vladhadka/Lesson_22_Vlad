@@ -1,0 +1,510 @@
+{
+	"info": {
+		"_postman_id": "c145b99c-e507-4123-a53d-1ad645ebefb8",
+		"name": "Homework 19",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18507317"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"avk@gmail.com\",\n  \"password\": \"ae0089emI\",\n  \"remember\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{my_url}}/auth/signin",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add car Ford Fusion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.carBrandId).to.eql(3);",
+							"    pm.expect(jsonData.data.brand).to.eql(\"Ford\");",
+							"    pm.expect(jsonData.data.model).to.eql(\"Fusion\");",
+							"    pm.expect(jsonData.data.logo).to.eql(\"ford.png\");",
+							"    pm.expect(jsonData.data.mileage).to.eql(111);",
+							" ",
+							"});",
+							"",
+							"});",
+							"pm.collectionVariables.set(\"car_id\", jsonData.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"carBrandId\": 3,\n  \"carModelId\": 13,\n  \"mileage\": 111\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{my_url}}/cars",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update car to Ford Focus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.carBrandId).to.eql(3);",
+							"    pm.expect(jsonData.data.brand).to.eql(\"Ford\");",
+							"    pm.expect(jsonData.data.model).to.eql(\"Focus\");",
+							"    pm.expect(jsonData.data.logo).to.eql(\"ford.png\");",
+							"    pm.expect(jsonData.data.mileage).to.eql(1000);",
+							" ",
+							"});",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\"carBrandId\": 3,\n  \"carModelId\": 12,\n  \"mileage\": 1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{my_url}}/cars/{{car_id}}",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"cars",
+						"{{car_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add an Expense Ford",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"   ",
+							"    pm.expect(jsonData.data.mileage).to.eql(1100);",
+							"    pm.expect(jsonData.data.totalCost).to.eql(11);",
+							"    pm.expect(jsonData.data.liters).to.eql(11);",
+							"",
+							"   ",
+							"});",
+							"pm.collectionVariables.set(\"expense_id\", jsonData.data.id);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"carId\": {{car_id}},\n  \"reportedAt\":\"{{tmp_current_date}}\",\n  \"mileage\": 1100,\n  \"liters\": 11,\n  \"totalCost\": 11,\n  \"forceMileage\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{my_url}}/expenses",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit an Expense Ford",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"   ",
+							"    pm.expect(jsonData.data.mileage).to.eql(1111);",
+							"    pm.expect(jsonData.data.totalCost).to.eql(12);",
+							"pm.expect(jsonData.data.liters).to.eql(12);",
+							"   ",
+							"});",
+							"",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"carId\": {{car_id}},\n  \"reportedAt\":\"{{tmp_current_date}}\",\n  \"mileage\": 1111,\n  \"liters\": 12,\n  \"totalCost\": 12,\n  \"forceMileage\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{my_url}}/expenses/{{expense_id}}",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"expenses",
+						"{{expense_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete An Expence",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"   ",
+							"    pm.expect(jsonData.status).to.eql(\"ok\");",
+							"  ",
+							"   ",
+							"",
+							"   ",
+							"});",
+							"",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{my_url}}/expenses/{{expense_id}}",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"expenses",
+						"{{expense_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check expense after Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"   ",
+							"    pm.expect(jsonData.status).to.eql(\"error\");",
+							"    pm.expect(jsonData.message).to.eql(\"Expense not found\");",
+							";})});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{my_url}}/expenses/{{expense_id}}",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"expenses",
+						"{{expense_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"   ",
+							"    pm.expect(jsonData.status).to.eql(\"ok\");",
+							"  ",
+							"   ",
+							"",
+							"   ",
+							"});",
+							"",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{my_url}}/cars/{{car_id}}",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"cars",
+						"{{car_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Deleting Car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"pm.test(\"Check data in response body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"   ",
+							"    pm.expect(jsonData.status).to.eql(\"error\");",
+							"    pm.expect(jsonData.message).to.eql(\"Car not found\");",
+							";})});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{my_url}}/cars/{{car_id}}",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"cars",
+						"{{car_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log out",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							";});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{my_url}}/auth/logout",
+					"protocol": "https",
+					"host": [
+						"{{my_url}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var moment= require ('moment');",
+					"",
+					"pm.collectionVariables.set('tmp_current_date', moment(). format((\"YYYY-MM-DD\")));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 2000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "my_url",
+			"value": "qauto2.forstudy.space/api",
+			"type": "string"
+		},
+		{
+			"key": "car_id",
+			"value": ""
+		},
+		{
+			"key": "tmp_current_date",
+			"value": ""
+		},
+		{
+			"key": "expense_id",
+			"value": ""
+		}
+	]
+}
